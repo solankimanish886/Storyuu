@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Types } from 'mongoose';
+import { Types, type PipelineStage } from 'mongoose';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { HttpError } from '../middleware/error.js';
@@ -55,7 +55,7 @@ router.get(
     const from = req.query.from ? new Date(req.query.from as string) : null;
     const to = req.query.to ? new Date(req.query.to as string) : null;
 
-    const pipeline: object[] = [];
+    const pipeline: PipelineStage[] = [];
 
     if (from || to) {
       const dateFilter: Record<string, Date> = {};
@@ -516,7 +516,7 @@ router.post(
         openAt: new Date(),
         closeAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
-      episode.voteQuestionId = vq._id;
+      episode.voteQuestionId = vq._id as unknown as Types.ObjectId;
       await episode.save();
     }
 
@@ -593,7 +593,7 @@ router.patch(
     if (voteQuestion !== undefined) {
       const questionText = voteQuestion?.question?.trim() ?? '';
       const options = voteQuestion?.options;
-      const existingVQ = await VoteQuestion.findOne({ episodeId: new Types.ObjectId(req.params.id) });
+      const existingVQ = await VoteQuestion.findOne({ episodeId: new Types.ObjectId(req.params.id as string) });
 
       if (existingVQ) {
         if (questionText) {
@@ -612,7 +612,7 @@ router.patch(
           if (!opt.description?.trim()) throw new HttpError(400, `Option ${i + 1} description is required.`);
         }
         const vq = await VoteQuestion.create({
-          episodeId: new Types.ObjectId(req.params.id),
+          episodeId: new Types.ObjectId(req.params.id as string),
           question: questionText,
           choices: options.map((o) => ({ title: o.title.trim(), description: o.description.trim() })),
           openAt: new Date(),

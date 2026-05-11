@@ -39,7 +39,7 @@ class RealStripeService implements StripeService {
   constructor() {
     if (env.STRIPE_SECRET_KEY) {
       this.stripe = new Stripe(env.STRIPE_SECRET_KEY, {
-        apiVersion: '2024-10-28.acacia',
+        apiVersion: '2026-04-22.dahlia',
       });
     } else {
       logger.warn('STRIPE_SECRET_KEY is not set. Stripe services will be unavailable.');

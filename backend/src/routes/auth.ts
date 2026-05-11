@@ -378,7 +378,7 @@ router.post(
 );
 
 // ─── GET /google  (A12 — Social Auth) ──────────────────────────────────────────
-router.get('/google', (req, res) => {
+router.get('/google', (_req, res) => {
   if (!env.GOOGLE_CLIENT_ID) {
     throw new HttpError(501, 'Google OAuth is not configured.');
   }

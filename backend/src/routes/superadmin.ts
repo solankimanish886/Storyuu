@@ -256,7 +256,7 @@ router.delete(
     assertNotSuperAdmin(String(targetUser.role));
 
     const deletedEmail = targetUser.email;
-    const userId = new Types.ObjectId(req.params.id);
+    const userId = new Types.ObjectId(req.params.id as string);
 
     // Step 1: Delete all votes by this user and collect affected question IDs
     const userVotes = await Vote.find({ userId }).select('voteQuestionId').lean();
