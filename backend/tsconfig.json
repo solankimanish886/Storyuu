@@ -15,12 +15,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "declaration": false,
-    "sourceMap": true,
-    "ignoreDeprecations": "6.0",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "sourceMap": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
