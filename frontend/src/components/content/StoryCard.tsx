@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Users, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import CoverImage from './CoverImage';
 
 export interface StoryCardData {
