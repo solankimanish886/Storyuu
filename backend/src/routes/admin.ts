@@ -516,7 +516,7 @@ router.post(
         openAt: new Date(),
         closeAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
       });
-      episode.voteQuestionId = vq._id as unknown as Types.ObjectId;
+      episode.set('voteQuestionId', vq._id);
       await episode.save();
     }
 
