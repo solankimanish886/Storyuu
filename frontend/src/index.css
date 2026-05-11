@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Raleway', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Custom Webkit Scrollbar - Shooting Star / Lightning Style */
+  ::-webkit-scrollbar {
+    width: 5px; /* Thin, elegant line */
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(6, 6, 20, 0.2); /* Subtle dark track */
+  }
+  ::-webkit-scrollbar-thumb {
+    /* Glowing energy beam effect: transparent tail -> vibrant color -> white core -> transparent tail */
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(7, 194, 239, 0.1) 15%,
+      rgba(7, 194, 239, 0.8) 40%,
+      #ffffff 50%,
+      rgba(255, 135, 80, 0.8) 60%,
+      rgba(255, 135, 80, 0.1) 85%,
+      transparent 100%
+    );
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    /* Brighter, hotter core on hover */
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(7, 194, 239, 0.3) 15%,
+      rgba(7, 194, 239, 1) 40%,
+      #ffffff 50%,
+      rgba(255, 135, 80, 1) 60%,
+      rgba(255, 135, 80, 0.3) 85%,
+      transparent 100%
+    );
+  }
+}
+
+@layer components {
+  /* §2.4 CTA system — implemented as reusable utility classes so screens stay token-clean */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-full font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-cyan focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    padding: 14px 28px;
+    min-height: 48px;
+    transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  }
+
+  .btn-primary-cyan {
+    @apply btn bg-brand-cyan text-black;
+  }
+  .btn-primary-cyan:hover {
+    opacity: 0.9;
+    box-shadow: 0 0 20px rgba(7, 194, 239, 0.35);
+    transform: translateY(-1px);
+  }
+  .btn-primary-cyan:active {
+    transform: translateY(0);
+  }
+
+  .btn-primary-orange {
+    @apply btn bg-brand-orange text-white;
+  }
+  .btn-primary-orange:hover {
+    background-color: #FF6B50;
+    box-shadow: 0 0 24px rgba(255, 135, 80, 0.4);
+    transform: translateY(-1px);
+  }
+  .btn-primary-orange:active {
+    transform: translateY(0);
+  }
+
+  .btn-outlined {
+    @apply btn border border-brand-cyan bg-transparent text-brand-cyan;
+  }
+  .btn-outlined:hover {
+    background-color: rgba(7, 194, 239, 0.1);
+    transform: translateY(-1px);
+  }
+  .btn-outlined:active {
+    transform: translateY(0);
+  }
+
+  .btn-link {
+    @apply text-brand-orange underline underline-offset-2 hover:opacity-80;
+  }
+
+  .input {
+    @apply w-full rounded-md bg-bg-surface px-4 py-3 text-white placeholder:text-neutral-500 border border-border-subtle focus:border-brand-cyan focus:outline-none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .input:focus {
+    box-shadow: 0 0 0 3px rgba(7, 194, 239, 0.12);
+  }
+
+  /* Feature card hover lift */
+  .card-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@layer utilities {
+  /* Animation delay helpers */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-700 { animation-delay: 700ms; }
+}
+
+/* Hero-specific keyframes */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.78; transform: scale(1.3); }
+}
+
+@keyframes rocketFloat {
+  0%   { transform: translate(0px,   0px)  rotate(-42deg); }
+  33%  { transform: translate(18px, -22px) rotate(-38deg); }
+  66%  { transform: translate(34px,  -6px) rotate(-44deg); }
+  100% { transform: translate(0px,   0px)  rotate(-42deg); }
+}
+
+/* Shooting star: inner div translates along parent's rotated axis */
+@keyframes shootStar {
+  0%   { opacity: 0;    transform: translateX(0px); }
+  4%   { opacity: 0.90; }
+  88%  { opacity: 0.75; }
+  100% { opacity: 0;    transform: translateX(900px); }
+}
+
+/* Floating ambient orbs */
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0px,   0px)  scale(1.00); }
+  33%       { transform: translate(20px, -28px) scale(1.05); }
+  66%       { transform: translate(-14px,-12px) scale(0.96); }
+}
+
+/* Marquee Animations */
+@keyframes marquee-left {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-right {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 60s linear infinite;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 60s linear infinite;
+}

@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280" />
+<title>Storyuu Admin · Where stories come alive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-0: #F4F5F7;
+  --bg-1: #FFFFFF;
+  --bg-2: #F9FAFB;
+  --bg-3: #F3F4F6;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F9FAFB;
+  --border: #E5E7EB;
+  --border-hover: #D1D5DB;
+  --text-1: #111827;
+  --text-2: #4B5563;
+  --text-3: #6B7280;
+  --text-4: #9CA3AF;
+  --orange: #FF6B4A;
+  --orange-soft: rgba(255, 107, 74, 0.12);
+  --orange-glow: rgba(255, 107, 74, 0.25);
+  --blue: #07C2EF;
+  --blue-soft: rgba(7, 194, 239, 0.12);
+  --purple: #8B5CF6;
+  --purple-soft: rgba(139, 92, 246, 0.12);
+  --pink: #EC4899;
+  --pink-soft: rgba(236, 72, 153, 0.12);
+  --green: #10B981;
+  --green-soft: rgba(16, 185, 129, 0.12);
+  --amber: #F59E0B;
+  --amber-soft: rgba(245, 158, 11, 0.12);
+  --red: #EF4444;
+  --red-soft: rgba(239, 68, 68, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg-0);
+  color: var(--text-1);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--bg-0);
+}
+
+/* ============ Display font ============ */
+.display { font-family: 'Fraunces', Georgia, serif; font-weight: 400; letter-spacing: -0.02em; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* ============ Scrollbar ============ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.12); }
+
+/* ============ App shell ============ */
+.app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* ============ Sidebar ============ */
+.sidebar {
+  background: var(--bg-1);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 10px 28px;
+}
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--orange) 0%, #FF8568 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px var(--orange-glow);
+}
+.brand-text { display: flex; flex-direction: column; line-height: 1; }
+.brand-name {
+  font-family: 'Fraunces', serif;
+  font-size: 21px;
+  font-weight: 500;
+  color: var(--orange);
+  letter-spacing: -0.02em;
+}
+.brand-sub {
+  font-size: 9px;
+  color: var(--blue);
+  margin-top: 4px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.nav-label {
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  padding: 14px 12px 6px;
+  font-weight: 500;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 12px;
+  border-radius: 9px;
+  font-size: 13px;
+  color: var(--text-2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  user-select: none;
+}
+.nav-item:hover {
+  background: rgba(0, 0, 0, 0.035);
+  color: var(--text-1);
+}
+.nav-item.active {
+  background: linear-gradient(90deg, var(--orange-soft), rgba(255, 107, 74, 0.02));
+  color: var(--orange);
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--orange);
+  border-radius: 0 2px 2px 0;
+}
+.nav-item svg { flex-shrink: 0; }
+.nav-pill {
+  margin-left: auto;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--text-2);
+  padding: 2px 7px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.nav-pill.live {
+  background: var(--orange-soft);
+  color: var(--orange);
+}
+.nav-pill.live::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--orange);
+  margin-right: 5px;
+  vertical-align: middle;
+  animation: pulse 1.6s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.profile-card {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.profile:hover { background: var(--bg-3); }
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange), #FF9776);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+.profile-info { flex: 1; min-width: 0; }
+.profile-name { font-size: 12px; font-weight: 500; color: var(--text-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.profile-role { font-size: 10px; color: var(--blue); }
+
+/* ============ Main ============ */
+.main {
+  padding: 28px 36px 60px;
+  min-width: 0;
+  position: relative;
+}
+
+/* ============ Top bar ============ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+}
+.topbar-left h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+}
+.topbar-left h1 em { font-style: italic; color: var(--orange); font-weight: 300; }
+.eyebrow {
+  font-size: 10px;
+  color: var(--text-4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.topbar-sub { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  color: var(--text-2);
+  width: 240px;
+  transition: all 0.15s;
+}
+.search:focus-within { border-color: var(--blue); background: rgba(77, 208, 255, 0.04); }
+.search input {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: var(--text-1);
+  font-size: 12px;
+  width: 100%;
+  font-family: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--orange);
+  color: #1a1a1a;
+  border-color: var(--orange);
+}
+.btn-primary:hover { background: #FF8568; box-shadow: 0 4px 16px var(--orange-glow); transform: translateY(-1px); }
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-1);
+  border-color: var(--border);
+}
+.btn-secondary:hover { background: var(--bg-3); border-color: var(--border-hover); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-2);
+}
+.btn-ghost:hover { background: var(--bg-2); color: var(--text-1); }
+.btn-blue {
+  background: var(--blue);
+  color: #042C53;
+  border-color: var(--blue);
+}
+.btn-blue:hover { background: #7DDFFF; box-shadow: 0 4px 16px rgba(77, 208, 255, 0.25); }
+.btn-danger {
+  background: var(--red-soft);
+  color: var(--red);
+  border-color: rgba(255, 92, 122, 0.3);
+}
+.btn-danger:hover { background: rgba(255, 92, 122, 0.2); }
+
+/* ============ Cards ============ */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  transition: all 0.15s;
+}
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.card-title { font-size: 14px; font-weight: 500; color: var(--text-1); }
+.card-sub { font-size: 11px; color: var(--text-3); margin-top: 3px; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent, var(--orange));
+}
+.kpi-orange { --accent: var(--orange); }
+.kpi-blue { --accent: var(--blue); }
+.kpi-purple { --accent: var(--purple); }
+.kpi-green { --accent: var(--green); }
+.kpi-row { display: flex; justify-content: space-between; align-items: center; }
+.kpi-label { font-size: 11px; color: var(--text-3); letter-spacing: 0.4px; }
+.kpi-num { font-size: 30px; font-weight: 500; color: var(--text-1); margin-top: 6px; letter-spacing: -1px; font-family: 'Fraunces', serif; }
+.kpi-trend { font-size: 11px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.kpi-trend.up { color: var(--green); }
+.kpi-trend.down { color: var(--red); }
+.kpi-trend.mute { color: var(--text-3); }
+
+/* ============ Tags / Pills / Badges ============ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.tag-purple { background: var(--purple-soft); color: var(--purple); }
+.tag-orange { background: var(--orange-soft); color: var(--orange); }
+.tag-blue { background: var(--blue-soft); color: var(--blue); }
+.tag-pink { background: var(--pink-soft); color: var(--pink); }
+.tag-green { background: var(--green-soft); color: var(--green); }
+.tag-amber { background: var(--amber-soft); color: var(--amber); }
+.tag-gray { background: var(--bg-2); color: var(--text-2); border: 1px solid var(--border); }
+.badge-published {
+  background: var(--blue);
+  color: #042C53;
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+.badge-draft {
+  background: var(--bg-2);
+  color: var(--text-2);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.badge-scheduled {
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* ============ Table ============ */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.tbl thead th {
+  text-align: left;
+  font-size: 10.5px;
+  color: var(--text-3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 12px 16px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+}
+.tbl thead th:first-child { border-top-left-radius: 10px; }
+.tbl thead th:last-child { border-top-right-radius: 10px; }
+.tbl tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-1);
+  vertical-align: middle;
+}
+.tbl tbody tr { transition: background 0.15s; }
+.tbl tbody tr:hover { background: var(--bg-2); }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+
+/* ============ Page transitions ============ */
+.page { animation: fadeUp 0.4s cubic-bezier(0.2, 0.6, 0.3, 1); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ Channel grid ============ */
+.channel-grid, .story-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.channel-card, .story-card-lg {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.channel-card:hover, .story-card-lg:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+.channel-cover, .story-cover-lg {
+  height: 180px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+}
+.channel-cover::after, .story-cover-lg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+.channel-cover-actions, .story-cover-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-1);
+}
+.icon-btn:hover { background: rgba(0, 0, 0, 0.75); border-color: rgba(255, 255, 255, 0.25); }
+.icon-btn.danger:hover { color: var(--red); }
+.channel-body, .story-body-lg {
+  padding: 14px 18px 18px;
+}
+.channel-title, .story-title-lg {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+.channel-desc, .story-desc-lg {
+  font-size: 12px;
+  color: var(--text-3);
+  line-height: 1.5;
+  margin-top: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.channel-stats, .story-stats-lg {
+  display: flex;
+  gap: 14px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.channel-stats strong, .story-stats-lg strong {
+  color: var(--text-1);
+  font-weight: 500;
+}
+
+/* ============ Filter bar ============ */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.chip {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--border-hover); color: var(--text-1); }
+.chip.active {
+  background: var(--blue-soft);
+  border-color: rgba(77, 208, 255, 0.3);
+  color: var(--blue);
+}
+.select {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  color: var(--text-1);
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: 0;
+}
+.select:hover { border-color: var(--border-hover); }
+
+/* ============ Forms ============ */
+.form-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.form-row:last-child { border-bottom: 0; }
+.form-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-1);
+}
+.form-hint { font-size: 11px; color: var(--text-3); margin-top: 4px; line-height: 1.5; }
+.input, .textarea {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  color: var(--text-1);
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  width: 100%;
+  font-family: inherit;
+  outline: 0;
+  transition: all 0.15s;
+}
+.input:focus, .textarea:focus {
+  border-color: var(--blue);
+  background: rgba(77, 208, 255, 0.04);
+  box-shadow: 0 0 0 3px rgba(77, 208, 255, 0.1);
+}
+.textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+.upload-zone {
+  border: 1.5px dashed var(--border);
+  border-radius: 11px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: var(--bg-0);
+}
+.upload-zone:hover {
+  border-color: var(--blue);
+  background: rgba(77, 208, 255, 0.03);
+}
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+}
+
+/* ============ Story detail tabs ============ */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+}
+.tab {
+  padding: 11px 18px;
+  font-size: 12.5px;
+  color: var(--text-3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  font-weight: 500;
+  background: transparent;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  font-family: inherit;
+}
+.tab:hover { color: var(--text-1); }
+.tab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ============ Activity items ============ */
+.activity { display: flex; flex-direction: column; gap: 14px; }
+.activity-item { display: flex; gap: 12px; align-items: flex-start; }
+.activity-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.activity-body { font-size: 12.5px; color: var(--text-2); line-height: 1.55; }
+.activity-body strong { color: var(--text-1); font-weight: 500; }
+.activity-body em { color: var(--blue); font-style: normal; }
+.activity-time { font-size: 10.5px; color: var(--text-4); margin-top: 3px; letter-spacing: 0.2px; }
+
+/* ============ Vote bars ============ */
+.vote-row { margin-bottom: 12px; }
+.vote-row-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  color: var(--text-2);
+  margin-bottom: 6px;
+}
+.vote-row-head .pct { color: var(--text-1); font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+.vote-row-head .winner { color: var(--orange); font-weight: 600; }
+.vote-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.vote-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s cubic-bezier(0.2, 0.6, 0.3, 1);
+}
+
+/* ============ Live pill ============ */
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--orange-soft);
+  color: var(--orange);
+  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.6s infinite;
+}
+
+/* ============ Episode cards ============ */
+.episode-row {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto auto;
+  gap: 16px;
+  align-items: center;
+  transition: all 0.15s;
+}
+.episode-row:hover { border-color: var(--border-hover); background: var(--bg-2); }
+.episode-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--purple-soft), rgba(179, 136, 255, 0.04));
+  border: 1px solid rgba(179, 136, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--purple);
+}
+.episode-title {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-1);
+  margin-bottom: 4px;
+}
+.episode-meta { display: flex; gap: 10px; font-size: 11px; color: var(--text-3); }
+.episode-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 11px;
+  color: var(--text-3);
+}
+.episode-stats strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text-1);
+  font-weight: 500;
+  margin-bottom: 1px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ============ Toggle ============ */
+.toggle {
+  width: 38px;
+  height: 22px;
+  background: var(--bg-3);
+  border-radius: 99px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 0;
+  flex-shrink: 0;
+}
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: var(--text-2);
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+.toggle.on {
+  background: var(--orange);
+}
+.toggle.on::after {
+  left: 18px;
+  background: #1a1a1a;
+}
+
+/* ============ Empty / utility ============ */
+.muted { color: var(--text-3); }
+.text-orange { color: var(--orange); }
+.text-blue { color: var(--blue); }
+.text-purple { color: var(--purple); }
+.text-green { color: var(--green); }
+.flex { display: flex; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.flex-center { display: flex; align-items: center; }
+.gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; } .gap-24 { gap: 24px; }
+.mb-8 { margin-bottom: 8px; } .mb-12 { margin-bottom: 12px; } .mb-16 { margin-bottom: 16px; } .mb-22 { margin-bottom: 22px; } .mb-32 { margin-bottom: 32px; }
+.mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-22 { margin-top: 22px; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.grid-12 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+
+/* ============ Dashboard chart ============ */
+.chart-area { position: relative; height: 200px; margin-top: 12px; }
+.chart-legend {
+  display: flex;
+  gap: 18px;
+  font-size: 11px;
+  color: var(--text-2);
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ============ Donut + sub list ============ */
+.donut-wrap { display: flex; align-items: center; gap: 22px; margin-top: 8px; }
+
+/* ============ Mini card (story rank) ============ */
+.story-mini {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.story-mini:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.story-mini-cover {
+  height: 90px;
+  position: relative;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.story-rank-badge {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  color: var(--text-1);
+  font-size: 10.5px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+.story-mini-body { padding: 12px 14px; }
+.story-mini-title { font-size: 13px; font-weight: 500; color: var(--text-1); margin-bottom: 6px; }
+.story-mini-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-3);
+}
+.story-mini-foot strong { color: var(--text-1); font-weight: 500; }
+
+/* ============ Plan cards (Subscribers) ============ */
+.plan-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  position: relative;
+}
+.plan-card.featured {
+  border-color: rgba(255, 107, 74, 0.4);
+  background: linear-gradient(135deg, var(--orange-soft), rgba(255, 107, 74, 0.02));
+}
+.plan-name { font-size: 12px; color: var(--text-3); letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500; }
+.plan-price { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 400; color: var(--text-1); letter-spacing: -1px; margin-top: 6px; }
+.plan-price small { font-size: 14px; color: var(--text-3); font-family: 'Inter', sans-serif; font-weight: 400; margin-left: 4px; }
+
+/* ============ Mock cover backgrounds ============ */
+.cov-romance { background: linear-gradient(135deg, #FF8FA3 0%, #FFB347 50%, #FF6B4A 100%); }
+.cov-scifi { background: linear-gradient(135deg, #6B4FA0 0%, #2A3FAF 60%, #4DD0FF 100%); }
+.cov-mystery { background: linear-gradient(135deg, #2A1A2E 0%, #4A2C40 50%, #C44569 100%); }
+.cov-historical { background: linear-gradient(135deg, #5C4033 0%, #8B6F47 50%, #D4A574 100%); }
+.cov-horror { background: linear-gradient(135deg, #1A0A0A 0%, #4A1818 50%, #8B2828 100%); }
+.cov-comedy { background: linear-gradient(135deg, #FFD93D 0%, #FF9776 50%, #FF6B4A 100%); }
+
+/* ============ Stat dot grid (engagement viz) ============ */
+.dot-grid {
+  display: grid;
+  grid-template-columns: repeat(28, 1fr);
+  gap: 3px;
+}
+.dot-cell {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.dot-cell.l1 { background: rgba(255, 107, 74, 0.15); }
+.dot-cell.l2 { background: rgba(255, 107, 74, 0.35); }
+.dot-cell.l3 { background: rgba(255, 107, 74, 0.6); }
+.dot-cell.l4 { background: rgba(255, 107, 74, 0.9); }
+
+/* ============ Episode editor specific ============ */
+.editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 22px;
+}
+.rich-editor {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  overflow: hidden;
+}
+.rich-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+}
+.rich-tool {
+  background: transparent;
+  border: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  color: var(--text-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+.rich-tool:hover { background: rgba(255, 255, 255, 0.06); color: var(--text-1); }
+.rich-tool.active { background: var(--orange-soft); color: var(--orange); }
+.rich-divider { width: 1px; background: var(--border); margin: 4px 4px; }
+.rich-content {
+  padding: 22px 26px;
+  min-height: 380px;
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-1);
+}
+.rich-content p { margin-bottom: 14px; }
+
+.aside-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.aside-title {
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.choice-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+.choice-thumb {
+  width: 36px; height: 36px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  color: var(--text-1);
+  font-weight: 500;
+}
+.choice-row .input { padding: 6px 10px; font-size: 12px; }
+
+/* ============ Revenue ============ */
+.revenue-stat {
+  font-family: 'Fraunces', serif;
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: -2px;
+  color: var(--text-1);
+}
+.revenue-stat sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: var(--text-3);
+  font-weight: 400;
+  vertical-align: baseline;
+  margin-left: 4px;
+}
+
+/* ============ Subscribers list ============ */
+.user-row { display: flex; align-items: center; gap: 12px; }
+.user-mini-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* ============ Settings ============ */
+.settings-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+}
+.settings-nav { display: flex; flex-direction: column; gap: 4px; }
+.settings-nav-item {
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.settings-nav-item:hover { background: rgba(255, 255, 255, 0.03); color: var(--text-1); }
+.settings-nav-item.active { background: var(--orange-soft); color: var(--orange); font-weight: 500; }
+
+/* ============ Toast ============ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-hover);
+  border-radius: 11px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  animation: toastIn 0.3s cubic-bezier(0.2, 0.6, 0.3, 1);
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
+          <path d="M3 17c0-3 2-5 5-5s5 2 5 5"/>
+          <path d="M11 7c0-3 2-5 5-5s5 2 5 5-2 5-5 5"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">storyuu</span>
+        <span class="brand-sub">Studio</span>
+      </div>
+    </div>
+
+    <div class="nav-label">Workspace</div>
+    <a class="nav-item" data-route="dashboard">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+      <span>Dashboard</span>
+    </a>
+    <a class="nav-item" data-route="channels">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/></svg>
+      <span>Channels</span>
+      <span class="nav-pill">3</span>
+    </a>
+    <a class="nav-item" data-route="stories">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4V4z"/><path d="M8 9h8M8 13h6"/></svg>
+      <span>Stories</span>
+      <span class="nav-pill">12</span>
+    </a>
+    <a class="nav-item" data-route="episode-editor">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="6,4 20,12 6,20"/></svg>
+      <span>Episode editor</span>
+    </a>
+    <a class="nav-item" data-route="votes">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      <span>Votes &amp; polls</span>
+      <span class="nav-pill live">live</span>
+    </a>
+
+    <div class="nav-label">Audience</div>
+    <a class="nav-item" data-route="subscribers">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M15 20c0-2 2-3.5 4-3.5"/></svg>
+      <span>Subscribers</span>
+    </a>
+    <a class="nav-item" data-route="revenue">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 11h20"/><path d="M6 16h3"/></svg>
+      <span>Revenue</span>
+    </a>
+
+    <div class="nav-label">Account</div>
+    <a class="nav-item" data-route="settings">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19 12c0-.4-.04-.8-.1-1.2l2-1.6-2-3.4-2.4.8a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.4a7 7 0 0 0-2 1.2l-2.4-.8-2 3.4 2 1.6c-.06.4-.1.8-.1 1.2"/></svg>
+      <span>Settings</span>
+    </a>
+
+    <div class="profile-card">
+      <div class="profile">
+        <div class="avatar">CA</div>
+        <div class="profile-info">
+          <div class="profile-name">Chris Abplanalp</div>
+          <div class="profile-role">Super Admin</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E8AB0" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main" id="main"></main>
+
+</div>
+
+<script>
+// ============ DATA ============
+const channels = [
+  { id: 1, name: 'Romance', desc: 'Experience a rollercoaster of emotions as you shape the story. Should they make the first move, give in, or walk away?', cover: 'cov-romance', stories: 4, episodes: 32, updated: '2h ago' },
+  { id: 2, name: 'Sci-Fi & Fantasy', desc: 'Magic, dragons, spaceships, kingdoms, beasts, fantasy! Become the god of a whole new universe while readers vote your fate.', cover: 'cov-scifi', stories: 5, episodes: 41, updated: '6h ago' },
+  { id: 3, name: 'Mystery & Thriller', desc: 'Detectives, secrets, suspense. Every chapter ends in a cliffhanger and only the audience decides who survives next.', cover: 'cov-mystery', stories: 3, episodes: 18, updated: '1d ago' },
+];
+
+const stories = [
+  { id: 1, title: 'The City of Secrets', channel: 'Sci-Fi & Fantasy', tag: 'tag-purple', cover: 'cov-scifi', status: 'Published', desc: 'The Secrets of Celare, from the City of Secrets series, is a fantastical story of quests and forgotten magic that reshapes a kingdom.', readers: 84, voteRate: 91, episodes: 16 },
+  { id: 2, title: 'Shadows in Serenity', channel: 'Mystery & Thriller', tag: 'tag-orange', cover: 'cov-mystery', status: 'Published', desc: 'Shadows in Serenity is a captivating mystery series following Detective Isa Sterling, who seeks solace in a town with too many secrets.', readers: 62, voteRate: 78, episodes: 8 },
+  { id: 3, title: 'The New York Montage', channel: 'Romance', tag: 'tag-pink', cover: 'cov-romance', status: 'Published', desc: 'Fashion Forward, as part of the New York Montage series, is a whimsical story following Jane Riley, a designer rewriting her own ending.', readers: 54, voteRate: 83, episodes: 8 },
+  { id: 4, title: 'The Lighthouse Keeper', channel: 'Mystery & Thriller', tag: 'tag-orange', cover: 'cov-historical', status: 'Draft', desc: 'A retired lighthouse keeper hears voices from the rocks. Reader votes decide whether they belong to the dead, the living, or his own mind.', readers: 0, voteRate: 0, episodes: 3 },
+  { id: 5, title: 'Crimson Hour', channel: 'Sci-Fi & Fantasy', tag: 'tag-purple', cover: 'cov-horror', status: 'Published', desc: 'A vampire detective in 2089 Tokyo. Each episode ends with a moral dilemma the audience must rule on before the next chapter goes live.', readers: 38, voteRate: 88, episodes: 6 },
+  { id: 6, title: 'Letters from the Sun', channel: 'Romance', tag: 'tag-pink', cover: 'cov-comedy', status: 'Published', desc: 'A long-distance romance told entirely through messages, voice notes, and the occasional disastrous video call.', readers: 41, voteRate: 76, episodes: 5 },
+];
+
+const votes = [
+  { story: 'The City of Secrets', season: 2, episode: 8, q: 'What should Celare do with the dragon\u2019s egg?', choices: ['Hide it in the temple','Trust the stranger','Destroy it'], pct: [54, 31, 15], total: 76, status: 'live', closes: '3h 12m' },
+  { story: 'The New York Montage', season: 1, episode: 4, q: 'How should Jane respond to the email?', choices: ['Reply professionally','Ignore for a day','Forward to her boss'], pct: [42, 38, 20], total: 142, status: 'closed', winner: 0 },
+  { story: 'Shadows in Serenity', season: 1, episode: 4, q: 'What should Isa do next?', choices: ['Confront the suspect','Tail him quietly','Call for backup'], pct: [58, 27, 15], total: 142, status: 'closed', winner: 0 },
+  { story: 'The New York Montage', season: 1, episode: 8, q: 'What will Jane do after she recognizes Edward and they lock eyes?', choices: ['Walk past him','Say his name','Run'], pct: [38, 47, 15], total: 89, status: 'closed', winner: 1 },
+  { story: 'Crimson Hour', season: 1, episode: 6, q: 'Does the detective spare the suspect?', choices: ['Spare him','Arrest him','End it'], pct: [22, 51, 27], total: 95, status: 'live', closes: '14h 04m' },
+];
+
+const polls = [
+  { story: 'The City of Secrets', season: 2, episode: 8, q: 'How did you feel about this episode?', options: ['Loved it','Liked it','It was okay','Could be better'], pct: [62, 24, 10, 4], total: 71 },
+  { story: 'The New York Montage', season: 1, episode: 8, q: 'Who is your favorite character?', options: ['Jane','Edward','Marcus','Lily'], pct: [44, 31, 18, 7], total: 88 },
+  { story: 'Shadows in Serenity', season: 1, episode: 4, q: 'Predict the killer', options: ['The mayor','The neighbor','The estranged son'], pct: [29, 33, 38], total: 134 },
+];
+
+const subscribers = [
+  { name: 'Sara Chen', email: 'sara.c@gmail.com', plan: 'Yearly', status: 'Active', joined: 'Jan 12, 2026', last: '12 min ago', color: 'linear-gradient(135deg, #FF6B4A, #FF9776)' },
+  { name: 'Marcus Diaz', email: 'm.diaz@outlook.com', plan: 'Monthly', status: 'Active', joined: 'Mar 04, 2026', last: '2h ago', color: 'linear-gradient(135deg, #4DD0FF, #7DDFFF)' },
+  { name: 'Aisha Patel', email: 'aisha.p@me.com', plan: 'Yearly', status: 'Active', joined: 'Nov 22, 2025', last: 'Yesterday', color: 'linear-gradient(135deg, #B388FF, #D4B5FF)' },
+  { name: 'Tom Bergstrom', email: 'tom.berg@yahoo.com', plan: 'Monthly', status: 'Past due', joined: 'Feb 18, 2026', last: '4d ago', color: 'linear-gradient(135deg, #FFB347, #FFD93D)' },
+  { name: 'Lin Wei', email: 'lin.wei@gmail.com', plan: 'Yearly', status: 'Active', joined: 'Apr 02, 2026', last: '30 min ago', color: 'linear-gradient(135deg, #2DD4A6, #5EEDC0)' },
+  { name: 'Olive Brennan', email: 'o.brennan@hey.com', plan: 'Monthly', status: 'Active', joined: 'Mar 28, 2026', last: '1h ago', color: 'linear-gradient(135deg, #F472B6, #F9A8D4)' },
+  { name: 'Daniel Reyes', email: 'd.reyes@proton.me', plan: 'Yearly', status: 'Active', joined: 'Dec 15, 2025', last: 'Just now', color: 'linear-gradient(135deg, #FF6B4A, #FFB347)' },
+  { name: 'Emma Schmidt', email: 'emma.s@gmail.com', plan: 'Monthly', status: 'Cancelled', joined: 'Jan 04, 2026', last: '11d ago', color: 'linear-gradient(135deg, #7E8AB0, #B7C0DA)' },
+];
+
+// ============ ROUTING ============
+const routes = {
+  'dashboard': renderDashboard,
+  'channels': renderChannels,
+  'stories': renderStories,
+  'story-detail': renderStoryDetail,
+  'episode-editor': renderEpisodeEditor,
+  'votes': renderVotes,
+  'subscribers': renderSubscribers,
+  'revenue': renderRevenue,
+  'settings': renderSettings,
+};
+
+let currentRoute = 'dashboard';
+let routeData = null;
+
+function navigate(route, data) {
+  currentRoute = route;
+  routeData = data || null;
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.route === route);
+  });
+  // Some sub-pages keep parent nav highlighted
+  if (route === 'story-detail') {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.route === 'stories'));
+  }
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const fn = routes[route] || renderDashboard;
+  main.innerHTML = `<div class="page">${fn(data)}</div>`;
+  bindPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-item').forEach(n => {
+  n.addEventListener('click', e => {
+    e.preventDefault();
+    navigate(n.dataset.route);
+  });
+});
+
+// ============ TOAST ============
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2DD4A6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg> ${msg}`;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transform = 'translateY(20px)'; t.style.transition = 'all 0.3s'; }, 2400);
+  setTimeout(() => t.remove(), 2800);
+}
+
+// ============ HELPERS ============
+function topbar(eyebrow, title, sub, actions) {
+  return `
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="eyebrow">${eyebrow}</div>
+        <h1>${title}</h1>
+        ${sub ? `<div class="topbar-sub">${sub}</div>` : ''}
+      </div>
+      <div class="topbar-right">${actions || ''}</div>
+    </div>
+  `;
+}
+
+function searchBox(placeholder) {
+  return `
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7E8AB0" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+      <input placeholder="${placeholder}"/>
+    </div>
+  `;
+}
+
+// ============ DASHBOARD ============
+function renderDashboard() {
+  // Build engagement dot grid (28x7 = 196 cells)
+  let dots = '';
+  for (let i = 0; i < 28 * 7; i++) {
+    const r = Math.random();
+    let cls = '';
+    if (r > 0.85) cls = 'l4';
+    else if (r > 0.65) cls = 'l3';
+    else if (r > 0.45) cls = 'l2';
+    else if (r > 0.25) cls = 'l1';
+    dots += `<div class="dot-cell ${cls}"></div>`;
+  }
+
+  return `
+    ${topbar('Workspace', 'Good evening, <em>Chris</em>', 'Here is what your audience is doing right now.', `
+      ${searchBox('Search stories, votes, users...')}
+      <button class="btn btn-secondary" data-action="export">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        Export
+      </button>
+      <button class="btn btn-primary" data-action="new-story">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        New story
+      </button>
+    `)}
+
+    <div class="kpi-grid">
+      <div class="kpi kpi-orange">
+        <div class="kpi-row">
+          <span class="kpi-label">Total readers / listeners</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF6B4A" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
+        </div>
+        <div class="kpi-num">120</div>
+        <div class="kpi-trend up">▲ 12% vs last week</div>
+      </div>
+      <div class="kpi kpi-blue">
+        <div class="kpi-row">
+          <span class="kpi-label">Current week signups</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4DD0FF" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </div>
+        <div class="kpi-num">24</div>
+        <div class="kpi-trend up">▲ 8 today</div>
+      </div>
+      <div class="kpi kpi-purple">
+        <div class="kpi-row">
+          <span class="kpi-label">Published stories</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B388FF" stroke-width="2" stroke-linecap="round"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/></svg>
+        </div>
+        <div class="kpi-num">3</div>
+        <div class="kpi-trend mute">across 3 channels</div>
+      </div>
+      <div class="kpi kpi-green">
+        <div class="kpi-row">
+          <span class="kpi-label">Monthly recurring revenue</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2DD4A6" stroke-width="2" stroke-linecap="round"><path d="M12 1v22M17 5H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H7"/></svg>
+        </div>
+        <div class="kpi-num">$1,650</div>
+        <div class="kpi-trend up">▲ 22% MoM</div>
+      </div>
+    </div>
+
+    <div class="grid-12 mb-22">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Engagement this week</div>
+            <div class="card-sub">Votes cast and episodes finished, day by day</div>
+          </div>
+          <div class="flex gap-8">
+            <button class="chip active" data-range="week">7D</button>
+            <button class="chip" data-range="month">30D</button>
+            <button class="chip" data-range="all">All</button>
+          </div>
+        </div>
+        <div class="chart-area">
+          <svg viewBox="0 0 600 200" width="100%" height="200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="gradOrange" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#FF6B4A" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#FF6B4A" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="gradBlue" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#4DD0FF" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#4DD0FF" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+              <line x1="0" y1="50" x2="600" y2="50"/>
+              <line x1="0" y1="100" x2="600" y2="100"/>
+              <line x1="0" y1="150" x2="600" y2="150"/>
+            </g>
+            <path d="M0,150 C50,130 80,90 120,95 C160,100 190,55 230,50 C270,48 300,80 340,75 C380,68 420,35 470,42 C510,48 540,25 600,32 L600,200 L0,200 Z" fill="url(#gradOrange)"/>
+            <path d="M0,150 C50,130 80,90 120,95 C160,100 190,55 230,50 C270,48 300,80 340,75 C380,68 420,35 470,42 C510,48 540,25 600,32" stroke="#FF6B4A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M0,170 C60,160 100,140 160,135 C220,128 260,118 320,112 C380,105 420,95 480,88 C540,82 580,75 600,72 L600,200 L0,200 Z" fill="url(#gradBlue)"/>
+            <path d="M0,170 C60,160 100,140 160,135 C220,128 260,118 320,112 C380,105 420,95 480,88 C540,82 580,75 600,72" stroke="#4DD0FF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <g fill="#7E8AB0" font-size="11" font-family="Inter, sans-serif">
+              <text x="0" y="195">Mon</text><text x="100" y="195">Tue</text><text x="200" y="195">Wed</text><text x="300" y="195">Thu</text><text x="400" y="195">Fri</text><text x="500" y="195">Sat</text><text x="570" y="195">Sun</text>
+            </g>
+          </svg>
+        </div>
+        <div class="chart-legend">
+          <span><span class="legend-dot" style="background: #FF6B4A;"></span>Votes cast · <strong style="color: var(--text-1); margin-left: 4px;">412</strong></span>
+          <span><span class="legend-dot" style="background: #4DD0FF;"></span>Episodes finished · <strong style="color: var(--text-1); margin-left: 4px;">298</strong></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Subscription split</div>
+            <div class="card-sub">120 active subscribers</div>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#FF6B4A" stroke-width="14" stroke-dasharray="180 301" stroke-dashoffset="0" transform="rotate(-90 60 60)" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#4DD0FF" stroke-width="14" stroke-dasharray="121 301" stroke-dashoffset="-180" transform="rotate(-90 60 60)" stroke-linecap="round"/>
+            <text x="60" y="58" text-anchor="middle" fill="#fff" font-size="22" font-weight="500" font-family="Fraunces, serif">120</text>
+            <text x="60" y="74" text-anchor="middle" fill="#7E8AB0" font-size="9" font-family="Inter, sans-serif">subscribers</text>
+          </svg>
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 12px; font-size: 12px;">
+            <div>
+              <div class="flex-between" style="color: var(--text-2);"><span>Monthly · $15</span><span style="color: var(--text-1); font-weight: 500;">72</span></div>
+              <div style="height: 4px; background: rgba(255,255,255,0.06); border-radius: 99px; margin-top: 6px;"><div style="width: 60%; height: 100%; background: var(--orange); border-radius: 99px;"></div></div>
+            </div>
+            <div>
+              <div class="flex-between" style="color: var(--text-2);"><span>Yearly · $150</span><span style="color: var(--text-1); font-weight: 500;">48</span></div>
+              <div style="height: 4px; background: rgba(255,255,255,0.06); border-radius: 99px; margin-top: 6px;"><div style="width: 40%; height: 100%; background: var(--blue); border-radius: 99px;"></div></div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-3); padding-top: 4px; border-top: 1px solid var(--border);">Yearly users save $30 · 40% adoption</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-22">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Reading heatmap</div>
+          <div class="card-sub">Last 28 days · darker means more episodes finished</div>
+        </div>
+        <div class="flex gap-8" style="font-size: 11px; color: var(--text-3); align-items: center;">
+          Less
+          <span class="dot-cell" style="width: 12px; height: 12px;"></span>
+          <span class="dot-cell l1" style="width: 12px; height: 12px;"></span>
+          <span class="dot-cell l2" style="width: 12px; height: 12px;"></span>
+          <span class="dot-cell l3" style="width: 12px; height: 12px;"></span>
+          <span class="dot-cell l4" style="width: 12px; height: 12px;"></span>
+          More
+        </div>
+      </div>
+      <div class="dot-grid">${dots}</div>
+    </div>
+
+    <div class="card mb-22">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Top performing stories</div>
+          <div class="card-sub">Ranked by completed episodes this week</div>
+        </div>
+        <button class="btn btn-ghost" data-action="all-stories">View all →</button>
+      </div>
+      <div class="grid-3">
+        ${stories.filter(s => s.status === 'Published').slice(0, 3).map((s, i) => `
+          <div class="story-mini" data-story-id="${s.id}">
+            <div class="story-mini-cover ${s.cover}">
+              <span class="badge-published">Published</span>
+              <span class="story-rank-badge">#${i+1}</span>
+            </div>
+            <div class="story-mini-body">
+              <div class="story-mini-title">${s.title}</div>
+              <div class="flex-between">
+                <span class="tag ${s.tag}">${s.channel}</span>
+                <span style="font-size: 10.5px; color: var(--text-3);">S${i === 0 ? 2 : 1} · E${s.episodes}</span>
+              </div>
+              <div class="story-mini-foot">
+                <span>Readers <strong>${s.readers}</strong></span>
+                <span>Vote rate <strong>${s.voteRate}%</strong></span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Live vote — closing soon</div>
+            <div class="card-sub">The City of Secrets · S2 · E08</div>
+          </div>
+          <div class="live-pill"><span class="live-dot"></span>3h 12m left</div>
+        </div>
+        <div style="font-family: 'Fraunces', serif; font-size: 17px; color: var(--text-1); margin-bottom: 16px; line-height: 1.4;">
+          "What should Celare do with the dragon's egg?"
+        </div>
+        <div class="vote-row">
+          <div class="vote-row-head"><span>Hide it in the temple</span><span class="pct">54%</span></div>
+          <div class="vote-bar"><div class="vote-fill" style="width: 54%; background: var(--orange);"></div></div>
+        </div>
+        <div class="vote-row">
+          <div class="vote-row-head"><span>Trust the stranger</span><span class="pct">31%</span></div>
+          <div class="vote-bar"><div class="vote-fill" style="width: 31%; background: var(--blue);"></div></div>
+        </div>
+        <div class="vote-row">
+          <div class="vote-row-head"><span>Destroy it</span><span class="pct">15%</span></div>
+          <div class="vote-bar"><div class="vote-fill" style="width: 15%; background: var(--purple);"></div></div>
+        </div>
+        <div class="flex-between" style="font-size: 11px; color: var(--text-3); margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <span>76 / 84 readers voted</span>
+          <button class="btn btn-ghost" data-action="open-vote" style="padding: 4px 8px;">Open vote →</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Recent activity</div>
+            <div class="card-sub">All channels · last 24h</div>
+          </div>
+        </div>
+        <div class="activity">
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--orange);"></div>
+            <div class="activity-body">
+              <div><strong>Episode 8</strong> of <strong>The City of Secrets</strong> went live</div>
+              <div class="activity-time">12 min ago · 84 followers notified</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--blue);"></div>
+            <div class="activity-body">
+              <div><strong>14 new subscribers</strong> joined today</div>
+              <div class="activity-time">2h ago · 9 monthly · 5 yearly</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--purple);"></div>
+            <div class="activity-body">
+              <div>Vote on <strong>S1 · E04</strong> closed — readers chose <em>"Confront the suspect"</em></div>
+              <div class="activity-time">5h ago · 142 votes total</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--green);"></div>
+            <div class="activity-body">
+              <div>New channel <strong>"Historical Drama"</strong> created</div>
+              <div class="activity-time">Yesterday · awaiting first story</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot" style="background: var(--amber);"></div>
+            <div class="activity-body">
+              <div>Stripe webhook flagged 1 <strong>past-due renewal</strong></div>
+              <div class="activity-time">Yesterday · grace period active until Apr 30</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============ CHANNELS ============
+function renderChannels() {
+  return `
+    ${topbar('Content', 'Channels', 'Genre buckets that organize every story on the platform.', `
+      ${searchBox('Search channels...')}
+      <button class="btn btn-blue" data-action="add-channel">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add channel
+      </button>
+    `)}
+
+    <div class="filter-bar">
+      <button class="chip active">All <span style="color: var(--text-3); margin-left: 4px;">3</span></button>
+      <button class="chip">Active</button>
+      <button class="chip">Archived</button>
+      <div style="margin-left: auto;">
+        <select class="select">
+          <option>Sort by: most stories</option>
+          <option>Sort by: recently updated</option>
+          <option>Sort by: alphabetical</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="channel-grid">
+      ${channels.map(c => `
+        <div class="channel-card">
+          <div class="channel-cover ${c.cover}">
+            <div class="channel-cover-actions">
+              <button class="icon-btn" title="Edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="icon-btn danger" title="Delete">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="channel-body">
+            <div class="channel-title">${c.name}</div>
+            <div class="channel-desc">${c.desc}</div>
+            <div class="channel-stats">
+              <span><strong>${c.stories}</strong> stories</span>
+              <span><strong>${c.episodes}</strong> episodes</span>
+              <span style="margin-left: auto;">Updated ${c.updated}</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card" style="margin-top: 22px;">
+      <div class="card-head" style="margin-bottom: 0;">
+        <div>
+          <div class="card-title">Channel guidelines</div>
+          <div class="card-sub">Each channel can hold unlimited stories. Soft-delete preserves analytics for archived genres.</div>
+        </div>
+        <button class="btn btn-ghost">Read docs →</button>
+      </div>
+    </div>
+  `;
+}
+
+// ============ STORIES ============
+function renderStories() {
+  return `
+    ${topbar('Content', 'Stories', 'Serialized narratives that live inside your channels.', `
+      ${searchBox('Search stories...')}
+      <button class="btn btn-blue" data-action="add-story">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        Add story
+      </button>
+    `)}
+
+    <div class="filter-bar">
+      <button class="chip active">All <span style="color: var(--text-3); margin-left: 4px;">${stories.length}</span></button>
+      <button class="chip">Published <span style="color: var(--text-3); margin-left: 4px;">${stories.filter(s => s.status === 'Published').length}</span></button>
+      <button class="chip">Drafts <span style="color: var(--text-3); margin-left: 4px;">${stories.filter(s => s.status === 'Draft').length}</span></button>
+      <button class="chip">Archived</button>
+      <div style="margin-left: auto; display: flex; gap: 10px;">
+        <select class="select">
+          <option>All channels</option>
+          <option>Romance</option>
+          <option>Sci-Fi & Fantasy</option>
+          <option>Mystery & Thriller</option>
+        </select>
+        <select class="select">
+          <option>Sort: most readers</option>
+          <option>Sort: recently updated</option>
+          <option>Sort: alphabetical</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="story-grid">
+      ${stories.map(s => `
+        <div class="story-card-lg" data-story-id="${s.id}">
+          <div class="story-cover-lg ${s.cover}">
+            <div class="story-cover-actions">
+              <button class="icon-btn" title="Edit">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="icon-btn danger" title="Delete">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="story-body-lg">
+            <div class="flex-between mb-8">
+              <span class="tag ${s.tag}">${s.channel}</span>
+              ${s.status === 'Published' ? '<span class="badge-published">Published</span>' : '<span class="badge-draft">Draft</span>'}
+            </div>
+            <div class="story-title-lg">${s.title}</div>
+            <div class="story-desc-lg">${s.desc}</div>
+            <div class="story-stats-lg">
+              <span><strong>${s.episodes}</strong> episodes</span>
+              <span><strong>${s.readers}</strong> readers</span>
+              <span><strong>${s.voteRate}%</strong> vote rate</span>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ============ STORY DETAIL ============
+function renderStoryDetail(data) {
+  const story = stories.find(s => s.id === (data?.id || 1)) || stories[0];
+  const tab = data?.tab || 'overview';
+
+  const seasonList = [
+    { num: 1, title: 'The Awakening', episodes: 8, status: 'Published' },
+    { num: 2, title: 'The Reckoning', episodes: 8, status: 'Published' },
+  ];
+
+  const episodes = [
+    { num: 1, title: 'Where the river forgets', status: 'Published', date: 'Jan 04', reads: 84, votes: 79, votePct: 94 },
+    { num: 2, title: 'The keeper\u2019s lantern', status: 'Published', date: 'Jan 11', reads: 82, votes: 75, votePct: 91 },
+    { num: 3, title: 'A door, half open', status: 'Published', date: 'Jan 18', reads: 80, votes: 72, votePct: 90 },
+    { num: 4, title: 'What the wind carried', status: 'Published', date: 'Jan 25', reads: 78, votes: 69, votePct: 88 },
+    { num: 5, title: 'Letters in glass', status: 'Published', date: 'Feb 01', reads: 76, votes: 68, votePct: 89 },
+    { num: 6, title: 'The hour before dawn', status: 'Published', date: 'Feb 08', reads: 79, votes: 71, votePct: 90 },
+    { num: 7, title: 'Names we no longer say', status: 'Published', date: 'Feb 15', reads: 81, votes: 74, votePct: 91 },
+    { num: 8, title: 'The dragon\u2019s egg', status: 'Published', date: 'Feb 22', reads: 84, votes: 76, votePct: 90 },
+    { num: 9, title: 'Stones that remember', status: 'Scheduled', date: 'May 02', reads: 0, votes: 0, votePct: 0 },
+    { num: 10, title: 'Untitled', status: 'Draft', date: '—', reads: 0, votes: 0, votePct: 0 },
+  ];
+
+  let body = '';
+  if (tab === 'overview') {
+    body = `
+      <div class="kpi-grid" style="grid-template-columns: repeat(5, 1fr);">
+        <div class="kpi kpi-orange"><div class="kpi-row"><span class="kpi-label">Followers</span></div><div class="kpi-num">84</div><div class="kpi-trend up">▲ 6 this week</div></div>
+        <div class="kpi kpi-blue"><div class="kpi-row"><span class="kpi-label">Episodes</span></div><div class="kpi-num">${story.episodes}</div><div class="kpi-trend mute">2 seasons</div></div>
+        <div class="kpi kpi-purple"><div class="kpi-row"><span class="kpi-label">Total votes</span></div><div class="kpi-num">584</div><div class="kpi-trend up">▲ 76 last episode</div></div>
+        <div class="kpi kpi-green"><div class="kpi-row"><span class="kpi-label">Vote rate</span></div><div class="kpi-num">${story.voteRate}%</div><div class="kpi-trend up">▲ 3 pts</div></div>
+        <div class="kpi"><div class="kpi-row"><span class="kpi-label">Avg. read time</span></div><div class="kpi-num">12<sub style="font-size:14px;color:var(--text-3);font-family:Inter,sans-serif;font-weight:400;margin-left:4px;">min</sub></div><div class="kpi-trend mute">per episode</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Latest vote results</div><div class="card-sub">S2 · E08 — closed 12 min ago</div></div></div>
+          <div style="font-family: 'Fraunces', serif; font-size: 16px; color: var(--text-1); margin-bottom: 14px;">"What should Celare do with the dragon's egg?"</div>
+          <div class="vote-row"><div class="vote-row-head"><span class="winner">Hide it in the temple ✓</span><span class="winner">54%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 54%; background: var(--orange);"></div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>Trust the stranger</span><span class="pct">31%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 31%; background: var(--blue);"></div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>Destroy it</span><span class="pct">15%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 15%; background: var(--purple);"></div></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Season ratings</div><div class="card-sub">Polls completed at episode end</div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>Loved it</span><span class="pct">62%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 62%; background: var(--green);"></div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>Liked it</span><span class="pct">24%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 24%; background: var(--blue);"></div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>It was okay</span><span class="pct">10%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 10%; background: var(--amber);"></div></div></div>
+          <div class="vote-row"><div class="vote-row-head"><span>Could be better</span><span class="pct">4%</span></div><div class="vote-bar"><div class="vote-fill" style="width: 4%; background: var(--red);"></div></div></div>
+        </div>
+      </div>
+    `;
+  } else if (tab === 'seasons') {
+    body = `
+      <div class="flex-between mb-22">
+        <div></div>
+        <button class="btn btn-blue" data-action="add-season">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add season
+        </button>
+      </div>
+      ${seasonList.map(s => `
+        <div class="card mb-12">
+          <div class="flex-between">
+            <div class="flex gap-16">
+              <div style="width: 60px; height: 60px; border-radius: 12px; background: linear-gradient(135deg, var(--orange-soft), rgba(255,107,74,0.04)); border: 1px solid rgba(255,107,74,0.25); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--orange);">S${s.num}</div>
+              <div>
+                <div style="font-family: 'Fraunces', serif; font-size: 19px; color: var(--text-1); margin-bottom: 4px;">Season ${s.num}: ${s.title}</div>
+                <div class="flex gap-12" style="font-size: 11.5px; color: var(--text-3);">
+                  <span>${s.episodes} episodes</span>
+                  <span>•</span>
+                  <span class="badge-published">${s.status}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-8">
+              <button class="btn btn-secondary">Manage episodes</button>
+              <button class="icon-btn" style="position: relative;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  } else if (tab === 'episodes') {
+    body = `
+      <div class="flex-between mb-22">
+        <div class="flex gap-8">
+          <select class="select"><option>Season 2</option><option>Season 1</option></select>
+          <button class="chip active">All ${episodes.length}</button>
+          <button class="chip">Published 8</button>
+          <button class="chip">Scheduled 1</button>
+          <button class="chip">Drafts 1</button>
+        </div>
+        <button class="btn btn-blue" data-action="add-episode">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add episode
+        </button>
+      </div>
+      ${episodes.map(ep => `
+        <div class="episode-row">
+          <div class="episode-num">${String(ep.num).padStart(2,'0')}</div>
+          <div>
+            <div class="episode-title">${ep.title}</div>
+            <div class="episode-meta">
+              ${ep.status === 'Published' ? '<span class="badge-published">Published</span>' : ep.status === 'Scheduled' ? '<span class="badge-scheduled">Scheduled</span>' : '<span class="badge-draft">Draft</span>'}
+              <span>${ep.date}</span>
+              ${ep.status === 'Published' ? '<span>· Vote configured</span>' : ''}
+            </div>
+          </div>
+          <div class="episode-stats">
+            <div><strong>${ep.reads}</strong>reads</div>
+            <div><strong>${ep.votes}</strong>votes</div>
+            <div><strong>${ep.votePct}%</strong>rate</div>
+          </div>
+          <button class="btn btn-secondary" data-action="edit-episode">Edit</button>
+          <button class="icon-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          </button>
+        </div>
+      `).join('')}
+    `;
+  } else if (tab === 'votes') {
+    body = `
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">All votes for this story</div><div class="card-sub">Across all seasons and episodes</div></div></div>
+        <table class="tbl">
+          <thead><tr><th>Episode</th><th>Question</th><th>Choices</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>
+            ${[1,2,3,4,5,6,7,8].map(n => `
+              <tr>
+                <td><span class="mono" style="color: var(--purple);">S2 · E${String(n).padStart(2,'0')}</span></td>
+                <td>${n === 8 ? 'What should Celare do with the dragon\u2019s egg?' : 'Vote question for episode ' + n}</td>
+                <td><span class="muted">3 choices</span></td>
+                <td class="mono"><strong>${70 + n * 2}</strong></td>
+                <td>${n === 8 ? '<span class="live-pill"><span class="live-dot"></span>live</span>' : '<span class="badge-draft">closed</span>'}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (tab === 'polls') {
+    body = `
+      <div class="card">
+        <div class="card-head"><div><div class="card-title">Polls for this story</div><div class="card-sub">Episode-end audience sentiment</div></div></div>
+        <table class="tbl">
+          <thead><tr><th>Episode</th><th>Poll question</th><th>Responses</th><th>Top response</th></tr></thead>
+          <tbody>
+            ${polls.filter(p => p.story === story.title || true).slice(0, 4).map((p, i) => `
+              <tr>
+                <td><span class="mono" style="color: var(--purple);">S${p.season} · E${String(p.episode).padStart(2,'0')}</span></td>
+                <td>${p.q}</td>
+                <td class="mono"><strong>${p.total}</strong></td>
+                <td><span class="text-blue">${p.options[0]}</span> <span class="muted">· ${p.pct[0]}%</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  } else if (tab === 'settings') {
+    body = `
+      <div class="card">
+        <div class="form-row"><div><div class="form-label">Story title</div></div><div><input class="input" value="${story.title}"/></div></div>
+        <div class="form-row"><div><div class="form-label">Channel</div></div><div><select class="select" style="width: 100%;"><option>${story.channel}</option></select></div></div>
+        <div class="form-row"><div><div class="form-label">Description</div></div><div><textarea class="textarea">${story.desc}</textarea></div></div>
+        <div class="form-row"><div><div class="form-label">Status</div><div class="form-hint">Published stories appear in the reader app.</div></div>
+          <div class="flex gap-8"><button class="chip active">Published</button><button class="chip">Draft</button><button class="chip">Archived</button></div>
+        </div>
+        <div class="form-row"><div><div class="form-label" style="color: var(--red);">Danger zone</div><div class="form-hint">Permanently archive this story.</div></div>
+          <div><button class="btn btn-danger">Archive story</button></div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    ${topbar('Story', story.title, story.channel + ' · ' + story.episodes + ' episodes · ' + story.readers + ' readers', `
+      <button class="btn btn-secondary" data-action="back-to-stories">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <button class="btn btn-blue" data-action="edit-episode">Edit episode</button>
+    `)}
+
+    <div class="tabs">
+      ${['overview','seasons','episodes','votes','polls','settings'].map(t => `
+        <button class="tab ${t === tab ? 'active' : ''}" data-tab="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</button>
+      `).join('')}
+    </div>
+
+    ${body}
+  `;
+}
+
+// ============ EPISODE EDITOR ============
+function renderEpisodeEditor() {
+  return `
+    ${topbar('Episode', 'Episode 9 — <em>Stones that remember</em>', 'The City of Secrets · Season 2 · Auto-saved 12s ago', `
+      <button class="btn btn-secondary" data-action="preview">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/></svg>
+        Preview
+      </button>
+      <button class="btn btn-secondary" data-action="save-draft">Save draft</button>
+      <button class="btn btn-primary" data-action="schedule">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        Schedule publish
+      </button>
+    `)}
+
+    <div class="editor-grid">
+      <div>
+        <div class="card mb-16">
+          <div class="form-row" style="grid-template-columns: 130px 1fr; padding: 16px 0;">
+            <div class="form-label">Title</div>
+            <div><input class="input" value="Stones that remember"/></div>
+          </div>
+          <div class="form-row" style="grid-template-columns: 130px 1fr; padding: 16px 0; border-bottom: 0;">
+            <div class="form-label">Audio file</div>
+            <div class="flex gap-12 flex-center">
+              <div class="flex gap-12 flex-center" style="background: var(--blue-soft); border: 1px solid rgba(77,208,255,0.2); padding: 8px 12px; border-radius: 9px; flex: 1;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4DD0FF" stroke-width="2" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                <div style="flex: 1; font-size: 12px;">
+                  <div style="color: var(--text-1); font-weight: 500;">stones-that-remember.mp3</div>
+                  <div style="color: var(--text-3); font-size: 10.5px;">12:38 · 18.4 MB</div>
+                </div>
+                <button class="btn btn-ghost" style="padding: 4px 8px;">Replace</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rich-editor">
+          <div class="rich-toolbar">
+            <button class="rich-tool active"><strong>B</strong></button>
+            <button class="rich-tool"><em>I</em></button>
+            <button class="rich-tool"><span style="text-decoration: underline;">U</span></button>
+            <div class="rich-divider"></div>
+            <button class="rich-tool" style="font-size: 14px;">H1</button>
+            <button class="rich-tool" style="font-size: 13px;">H2</button>
+            <button class="rich-tool" style="font-size: 12px;">H3</button>
+            <div class="rich-divider"></div>
+            <button class="rich-tool"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+            <button class="rich-tool"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><path d="M4 6h1v4M4 10h2M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"/></svg></button>
+            <div class="rich-divider"></div>
+            <button class="rich-tool"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+            <button class="rich-tool"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg></button>
+          </div>
+          <div class="rich-content" contenteditable="true">
+            <p>The temple sat in the elbow of the river, and Celare had not been here since she was small enough to fit between the standing stones. The path remembered her feet better than she did, and the moss kept its secrets the way moss always has — softly, and without judgement.</p>
+            <p>The egg was warm in her satchel. She had not opened it since the stranger left her in the dark, but she could feel it breathing the way a sleeping animal breathes — slow, certain, and entirely its own.</p>
+            <p style="color: var(--text-3); font-style: italic;">— continue typing —</p>
+          </div>
+        </div>
+
+        <div class="flex-between mt-16" style="font-size: 11px; color: var(--text-3);">
+          <span>2 paragraphs · 142 words · ~1 min read</span>
+          <span>Auto-saved at 4:28 PM</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="aside-section">
+          <div class="aside-title">Schedule</div>
+          <div style="font-size: 13px; color: var(--text-1); margin-bottom: 4px;">May 02, 2026 · 9:00 AM</div>
+          <div style="font-size: 11px; color: var(--text-3);">Auto-publishes via cron worker</div>
+          <button class="btn btn-secondary mt-8" style="width: 100%;">Change date</button>
+        </div>
+
+        <div class="aside-section">
+          <div class="flex-between mb-12">
+            <div class="aside-title" style="margin-bottom: 0;">Vote question</div>
+            <div class="toggle on" data-toggle></div>
+          </div>
+          <input class="input mb-12" value="Should Celare open the egg in the temple?"/>
+          <div class="choice-row">
+            <div class="choice-thumb cov-scifi">A</div>
+            <input class="input" value="Open it now"/>
+          </div>
+          <div class="choice-row">
+            <div class="choice-thumb cov-romance">B</div>
+            <input class="input" value="Wait until dawn"/>
+          </div>
+          <div class="choice-row">
+            <div class="choice-thumb cov-mystery">C</div>
+            <input class="input" value="Bury it deeper"/>
+          </div>
+          <button class="btn btn-ghost" style="width: 100%; margin-top: 4px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add choice
+          </button>
+          <div style="font-size: 11px; color: var(--text-3); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            Closes when next episode publishes
+          </div>
+        </div>
+
+        <div class="aside-section">
+          <div class="flex-between mb-12">
+            <div class="aside-title" style="margin-bottom: 0;">End-of-episode poll</div>
+            <div class="toggle on" data-toggle></div>
+          </div>
+          <input class="input mb-12" value="How did you feel about this episode?"/>
+          <div class="choice-row" style="padding: 6px 10px;">
+            <span class="muted" style="font-size: 11px; width: 18px;">1</span>
+            <input class="input" value="Loved it"/>
+          </div>
+          <div class="choice-row" style="padding: 6px 10px;">
+            <span class="muted" style="font-size: 11px; width: 18px;">2</span>
+            <input class="input" value="Liked it"/>
+          </div>
+          <div class="choice-row" style="padding: 6px 10px;">
+            <span class="muted" style="font-size: 11px; width: 18px;">3</span>
+            <input class="input" value="It was okay"/>
+          </div>
+          <div class="choice-row" style="padding: 6px 10px;">
+            <span class="muted" style="font-size: 11px; width: 18px;">4</span>
+            <input class="input" value="Could be better"/>
+          </div>
+          <div class="flex-between mt-8" style="font-size: 12px; color: var(--text-2);">
+            <span>Show results to user</span>
+            <div class="toggle" data-toggle></div>
+          </div>
+        </div>
+
+        <div class="aside-section">
+          <div class="aside-title">Status</div>
+          <div class="flex gap-8">
+            <button class="chip">Draft</button>
+            <button class="chip active">Scheduled</button>
+            <button class="chip">Published</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============ VOTES & POLLS ============
+function renderVotes() {
+  return `
+    ${topbar('Engagement', 'Votes & polls', 'Track every plot decision and audience sentiment in one place.', `
+      ${searchBox('Search by question or story...')}
+      <select class="select"><option>All stories</option></select>
+      <button class="btn btn-secondary">Export CSV</button>
+    `)}
+
+    <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi kpi-orange"><div class="kpi-row"><span class="kpi-label">Active votes</span></div><div class="kpi-num">2</div><div class="kpi-trend up">closing in &lt; 24h</div></div>
+      <div class="kpi kpi-blue"><div class="kpi-row"><span class="kpi-label">Total votes cast</span></div><div class="kpi-num">1,284</div><div class="kpi-trend up">▲ 18% this week</div></div>
+      <div class="kpi kpi-purple"><div class="kpi-row"><span class="kpi-label">Avg. participation</span></div><div class="kpi-num">87%</div><div class="kpi-trend up">▲ 4 pts</div></div>
+      <div class="kpi kpi-green"><div class="kpi-row"><span class="kpi-label">Polls answered</span></div><div class="kpi-num">896</div><div class="kpi-trend up">on 12 episodes</div></div>
+    </div>
+
+    <div class="tabs mt-22">
+      <button class="tab active" data-vote-tab="votes">Vote details</button>
+      <button class="tab" data-vote-tab="polls">Poll details</button>
+    </div>
+
+    <div class="card" id="votes-table">
+      <div class="card-head">
+        <div>
+          <div class="card-title">All vote questions</div>
+          <div class="card-sub">Live data updates every 30 seconds</div>
+        </div>
+        <div class="flex gap-8">
+          <button class="chip active">All</button>
+          <button class="chip">Live</button>
+          <button class="chip">Closed</button>
+        </div>
+      </div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width: 24%;">Story</th>
+            <th>Episode</th>
+            <th style="width: 30%;">Vote question</th>
+            <th>Choice 1</th>
+            <th>Choice 2</th>
+            <th>Choice 3</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${votes.map(v => `
+            <tr>
+              <td><strong>${v.story}</strong></td>
+              <td><span class="mono" style="color: var(--purple);">S${v.season} · E${String(v.episode).padStart(2,'0')}</span></td>
+              <td style="font-size: 12px;">${v.q}</td>
+              ${v.pct.concat([null,null,null]).slice(0,3).map((p,i) => p === null
+                ? `<td class="muted">—</td>`
+                : `<td><div style="display: flex; flex-direction: column; gap: 4px;"><span class="mono" style="font-size: 12px; ${v.status === 'closed' && v.winner === i ? 'color: var(--orange); font-weight: 600;' : ''}">${p}%</span><div class="vote-bar" style="height: 4px;"><div class="vote-fill" style="width: ${p}%; background: ${v.status === 'closed' && v.winner === i ? 'var(--orange)' : ['var(--blue)','var(--purple)','var(--pink)'][i]};"></div></div></div></td>`
+              ).join('')}
+              <td class="mono"><strong>${v.total}</strong></td>
+              <td>
+                ${v.status === 'live'
+                  ? `<button class="btn btn-blue" style="padding: 6px 12px;"><span class="live-dot" style="margin-right: 4px;"></span>${v.closes}</button>`
+                  : `<button class="btn btn-secondary" style="padding: 6px 12px;">Go to story →</button>`}
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mt-22" style="display: none;" id="polls-table">
+      <div class="card-head">
+        <div>
+          <div class="card-title">All polls</div>
+          <div class="card-sub">Episode-end audience sentiment</div>
+        </div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Story</th><th>Episode</th><th style="width: 30%;">Poll question</th><th>Top response</th><th>Responses</th><th></th></tr></thead>
+        <tbody>
+          ${polls.map(p => `
+            <tr>
+              <td><strong>${p.story}</strong></td>
+              <td><span class="mono" style="color: var(--purple);">S${p.season} · E${String(p.episode).padStart(2,'0')}</span></td>
+              <td style="font-size: 12px;">${p.q}</td>
+              <td><span class="text-blue">${p.options[0]}</span> <span class="muted">${p.pct[0]}%</span></td>
+              <td class="mono"><strong>${p.total}</strong></td>
+              <td><button class="btn btn-secondary" style="padding: 6px 12px;">Go to story →</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ============ SUBSCRIBERS ============
+function renderSubscribers() {
+  return `
+    ${topbar('Audience', 'Subscribers', '120 active members across two paid plans.', `
+      ${searchBox('Search by name or email...')}
+      <select class="select"><option>All plans</option><option>Monthly</option><option>Yearly</option></select>
+      <button class="btn btn-secondary">Export</button>
+      <button class="btn btn-blue" data-action="comp-sub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 12V8a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8M16 16l4 4M16 20l4-4"/></svg>
+        Comp subscription
+      </button>
+    `)}
+
+    <div class="grid-2 mb-22">
+      <div class="plan-card featured">
+        <div class="flex-between mb-12">
+          <span class="plan-name" style="color: var(--orange);">Monthly</span>
+          <span class="tag tag-orange">${subscribers.filter(s => s.plan === 'Monthly').length} subscribers</span>
+        </div>
+        <div class="plan-price">$15<small>/ month</small></div>
+        <div style="font-size: 12px; color: var(--text-3); margin-top: 10px;">Auto-renews every 30 days · 3-day grace period on failure</div>
+        <div class="flex-between mt-16" style="padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06);">
+          <span style="font-size: 12px; color: var(--text-2);">MRR contribution</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--orange);">$1,080</span>
+        </div>
+      </div>
+
+      <div class="plan-card">
+        <div class="flex-between mb-12">
+          <span class="plan-name" style="color: var(--blue);">Yearly</span>
+          <span class="tag tag-blue">${subscribers.filter(s => s.plan === 'Yearly').length} subscribers</span>
+        </div>
+        <div class="plan-price">$150<small>/ year</small></div>
+        <div style="font-size: 12px; color: var(--text-3); margin-top: 10px;">Auto-renews every 365 days · saves $30/year vs monthly</div>
+        <div class="flex-between mt-16" style="padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06);">
+          <span style="font-size: 12px; color: var(--text-2);">MRR equivalent</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--blue);">$600</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">All subscribers</div>
+          <div class="card-sub">Sortable, searchable, with quick actions</div>
+        </div>
+        <div class="flex gap-8">
+          <button class="chip active">All ${subscribers.length}</button>
+          <button class="chip">Active</button>
+          <button class="chip">Past due</button>
+          <button class="chip">Cancelled</button>
+        </div>
+      </div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Last active</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${subscribers.map(u => `
+            <tr>
+              <td>
+                <div class="user-row">
+                  <div class="user-mini-avatar" style="background: ${u.color};">${u.name.split(' ').map(n => n[0]).join('')}</div>
+                  <div>
+                    <div style="font-weight: 500; color: var(--text-1);">${u.name}</div>
+                    <div style="font-size: 11px; color: var(--text-3);">${u.email}</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="tag ${u.plan === 'Yearly' ? 'tag-blue' : 'tag-orange'}">${u.plan}</span></td>
+              <td>
+                ${u.status === 'Active' ? '<span class="tag tag-green">● Active</span>' : u.status === 'Past due' ? '<span class="tag tag-amber">● Past due</span>' : '<span class="tag tag-gray">● Cancelled</span>'}
+              </td>
+              <td class="muted">${u.joined}</td>
+              <td class="muted">${u.last}</td>
+              <td>
+                <button class="icon-btn" style="background: rgba(255,255,255,0.04); border-color: var(--border); width: 28px; height: 28px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                </button>
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+      <div class="flex-between mt-16" style="font-size: 12px; color: var(--text-3);">
+        <span>Showing 1–${subscribers.length} of ${subscribers.length}</span>
+        <div class="flex gap-8">
+          <button class="btn btn-ghost" style="padding: 4px 10px;">← Prev</button>
+          <button class="btn btn-ghost" style="padding: 4px 10px;">Next →</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============ REVENUE ============
+function renderRevenue() {
+  return `
+    ${topbar('Finance', 'Revenue', 'Stripe-powered subscription analytics.', `
+      <select class="select"><option>This month</option><option>Last 30 days</option><option>This year</option></select>
+      <button class="btn btn-secondary">Open Stripe</button>
+      <button class="btn btn-blue">Export report</button>
+    `)}
+
+    <div class="grid-3 mb-22">
+      <div class="card">
+        <div class="kpi-label" style="margin-bottom: 8px;">Monthly recurring revenue</div>
+        <div class="revenue-stat">$1,650<sub>/mo</sub></div>
+        <div class="kpi-trend up mt-8">▲ 22% MoM · ▲ $300</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label" style="margin-bottom: 8px;">Annual run rate</div>
+        <div class="revenue-stat">$19.8K<sub>/yr</sub></div>
+        <div class="kpi-trend up mt-8">▲ 28% YoY</div>
+      </div>
+      <div class="card">
+        <div class="kpi-label" style="margin-bottom: 8px;">This month gross</div>
+        <div class="revenue-stat">$2,140</div>
+        <div class="kpi-trend mute mt-8">14 charges · 0 refunds</div>
+      </div>
+    </div>
+
+    <div class="card mb-22">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Revenue trend · last 6 months</div>
+          <div class="card-sub">Monthly bars · yearly plans counted at billed amount</div>
+        </div>
+      </div>
+      <svg viewBox="0 0 600 220" width="100%" height="220" preserveAspectRatio="none">
+        <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+          <line x1="40" y1="40" x2="600" y2="40"/>
+          <line x1="40" y1="90" x2="600" y2="90"/>
+          <line x1="40" y1="140" x2="600" y2="140"/>
+          <line x1="40" y1="190" x2="600" y2="190"/>
+        </g>
+        <g fill="#7E8AB0" font-size="10" font-family="JetBrains Mono, monospace">
+          <text x="0" y="44">$2.5k</text><text x="0" y="94">$1.9k</text><text x="0" y="144">$1.3k</text><text x="0" y="194">$0.7k</text>
+        </g>
+        <g>
+          <rect x="80" y="160" width="40" height="30" rx="4" fill="#FF6B4A" opacity="0.7"/>
+          <rect x="80" y="130" width="40" height="30" rx="0" fill="#4DD0FF" opacity="0.7"/>
+          <text x="100" y="208" fill="#7E8AB0" font-size="10" text-anchor="middle" font-family="Inter, sans-serif">Nov</text>
+          <rect x="160" y="140" width="40" height="50" rx="4" fill="#FF6B4A" opacity="0.7"/>
+          <rect x="160" y="105" width="40" height="35" rx="0" fill="#4DD0FF" opacity="0.7"/>
+          <text x="180" y="208" fill="#7E8AB0" font-size="10" text-anchor="middle" font-family="Inter, sans-serif">Dec</text>
+          <rect x="240" y="115" width="40" height="75" rx="4" fill="#FF6B4A" opacity="0.7"/>
+          <rect x="240" y="75" width="40" height="40" rx="0" fill="#4DD0FF" opacity="0.7"/>
+          <text x="260" y="208" fill="#7E8AB0" font-size="10" text-anchor="middle" font-family="Inter, sans-serif">Jan</text>
+          <rect x="320" y="100" width="40" height="90" rx="4" fill="#FF6B4A" opacity="0.7"/>
+          <rect x="320" y="60" width="40" height="40" rx="0" fill="#4DD0FF" opacity="0.7"/>
+          <text x="340" y="208" fill="#7E8AB0" font-size="10" text-anchor="middle" font-family="Inter, sans-serif">Feb</text>
+          <rect x="400" y="80" width="40" height="110" rx="4" fill="#FF6B4A" opacity="0.85"/>
+          <rect x="400" y="35" width="40" height="45" rx="0" fill="#4DD0FF" opacity="0.85"/>
+          <text x="420" y="208" fill="#7E8AB0" font-size="10" text-anchor="middle" font-family="Inter, sans-serif">Mar</text>
+          <rect x="480" y="60" width="40" height="130" rx="4" fill="#FF6B4A"/>
+          <rect x="480" y="20" width="40" height="40" rx="0" fill="#4DD0FF"/>
+          <text x="500" y="208" fill="#fff" font-size="10" text-anchor="middle" font-weight="500" font-family="Inter, sans-serif">Apr</text>
+        </g>
+      </svg>
+      <div class="chart-legend">
+        <span><span class="legend-dot" style="background: #FF6B4A;"></span>Monthly plans</span>
+        <span><span class="legend-dot" style="background: #4DD0FF;"></span>Yearly plans</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div><div class="card-title">Recent transactions</div><div class="card-sub">Stripe charges · last 7 days</div></div>
+        <button class="btn btn-ghost">View all in Stripe →</button>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Customer</th><th>Plan</th><th>Amount</th><th>Date</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          ${[
+            { name: 'Lin Wei', plan: 'Yearly', amt: 150, date: 'Apr 28 · 12:04 PM', status: 'Succeeded' },
+            { name: 'Daniel Reyes', plan: 'Yearly', amt: 150, date: 'Apr 28 · 09:47 AM', status: 'Succeeded' },
+            { name: 'Marcus Diaz', plan: 'Monthly', amt: 15, date: 'Apr 27 · 04:18 PM', status: 'Succeeded' },
+            { name: 'Tom Bergstrom', plan: 'Monthly', amt: 15, date: 'Apr 24 · 02:00 AM', status: 'Failed' },
+            { name: 'Olive Brennan', plan: 'Monthly', amt: 15, date: 'Apr 23 · 11:32 AM', status: 'Succeeded' },
+            { name: 'Sara Chen', plan: 'Yearly', amt: 150, date: 'Apr 22 · 06:15 PM', status: 'Succeeded' },
+          ].map(t => `
+            <tr>
+              <td><strong>${t.name}</strong></td>
+              <td><span class="tag ${t.plan === 'Yearly' ? 'tag-blue' : 'tag-orange'}">${t.plan}</span></td>
+              <td class="mono"><strong>$${t.amt}.00</strong></td>
+              <td class="muted">${t.date}</td>
+              <td>${t.status === 'Succeeded' ? '<span class="tag tag-green">● Succeeded</span>' : '<span class="tag tag-amber">● Failed</span>'}</td>
+              <td><button class="btn btn-ghost" style="padding: 4px 8px;">Refund</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ============ SETTINGS ============
+function renderSettings() {
+  return `
+    ${topbar('Account', 'Settings', 'Profile, notifications, billing, and platform configuration.', '')}
+
+    <div class="settings-grid">
+      <div class="settings-nav">
+        <div class="settings-nav-item active">Profile</div>
+        <div class="settings-nav-item">Notifications</div>
+        <div class="settings-nav-item">Security &amp; 2FA</div>
+        <div class="settings-nav-item">Billing settings</div>
+        <div class="settings-nav-item">Email templates</div>
+        <div class="settings-nav-item">Team &amp; admins</div>
+        <div class="settings-nav-item">Integrations</div>
+        <div class="settings-nav-item">API tokens</div>
+        <div class="settings-nav-item" style="color: var(--red);">Danger zone</div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--border); margin-bottom: 4px;">
+            <div class="avatar" style="width: 64px; height: 64px; font-size: 22px;">CA</div>
+            <div style="flex: 1;">
+              <div style="font-family: 'Fraunces', serif; font-size: 22px; color: var(--text-1);">Chris Abplanalp</div>
+              <div style="font-size: 12px; color: var(--text-3); margin-top: 2px;">chris@storyuu.com · Super Admin</div>
+            </div>
+            <button class="btn btn-secondary">Change photo</button>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <div class="form-label">Display name</div>
+              <div class="form-hint">Shown to other admins and in audit logs.</div>
+            </div>
+            <div><input class="input" value="Chris Abplanalp"/></div>
+          </div>
+          <div class="form-row">
+            <div><div class="form-label">Email</div><div class="form-hint">Used for login. Re-verification required if changed.</div></div>
+            <div><input class="input" value="chris@storyuu.com"/></div>
+          </div>
+          <div class="form-row">
+            <div><div class="form-label">Role</div><div class="form-hint">Super admin. Manages all admins, payments, and platform settings.</div></div>
+            <div><span class="tag tag-orange" style="font-size: 12px; padding: 6px 12px;">Super Admin</span></div>
+          </div>
+          <div class="form-row">
+            <div><div class="form-label">Language</div></div>
+            <div><select class="select" style="width: 100%;"><option>English (US)</option><option>Spanish</option><option>French</option></select></div>
+          </div>
+          <div class="form-row">
+            <div><div class="form-label">Timezone</div></div>
+            <div><select class="select" style="width: 100%;"><option>America/New York (EDT)</option><option>UTC</option></select></div>
+          </div>
+        </div>
+
+        <div class="card mt-22">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Notification preferences</div>
+              <div class="card-sub">Pick what you want to be alerted about.</div>
+            </div>
+          </div>
+          ${[
+            { name: 'New subscriber joined', desc: 'Email + in-app', on: true },
+            { name: 'Vote closing in 24h', desc: 'In-app only', on: true },
+            { name: 'Failed Stripe renewal', desc: 'Email immediately', on: true },
+            { name: 'New admin invited', desc: 'Email', on: false },
+            { name: 'Weekly engagement digest', desc: 'Every Monday morning', on: true },
+          ].map(n => `
+            <div class="flex-between" style="padding: 14px 0; border-bottom: 1px solid var(--border);">
+              <div>
+                <div style="font-size: 13px; font-weight: 500; color: var(--text-1);">${n.name}</div>
+                <div style="font-size: 11px; color: var(--text-3); margin-top: 2px;">${n.desc}</div>
+              </div>
+              <div class="toggle ${n.on ? 'on' : ''}" data-toggle></div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="card mt-22">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Subscription pricing</div>
+              <div class="card-sub">Edit how plans appear to readers in the app.</div>
+            </div>
+            <span class="tag tag-amber">Super admin only</span>
+          </div>
+          <div class="grid-2 mt-8">
+            <div>
+              <div class="form-label mb-8">Monthly plan</div>
+              <input class="input" value="$15.00 / month"/>
+            </div>
+            <div>
+              <div class="form-label mb-8">Yearly plan</div>
+              <input class="input" value="$150.00 / year"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-between mt-22">
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-primary" data-action="save-settings">Save changes</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ============ BIND PAGE INTERACTIONS ============
+function bindPage() {
+  const main = document.getElementById('main');
+
+  main.querySelectorAll('[data-story-id]').forEach(el => {
+    el.addEventListener('click', e => {
+      const id = parseInt(el.dataset.storyId);
+      navigate('story-detail', { id, tab: 'overview' });
+    });
+  });
+
+  main.querySelectorAll('[data-tab]').forEach(el => {
+    el.addEventListener('click', () => {
+      const tab = el.dataset.tab;
+      navigate('story-detail', { id: routeData?.id || 1, tab });
+    });
+  });
+
+  main.querySelectorAll('[data-vote-tab]').forEach(el => {
+    el.addEventListener('click', () => {
+      main.querySelectorAll('[data-vote-tab]').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      const target = el.dataset.voteTab;
+      document.getElementById('votes-table').style.display = target === 'votes' ? 'block' : 'none';
+      document.getElementById('polls-table').style.display = target === 'polls' ? 'block' : 'none';
+    });
+  });
+
+  main.querySelectorAll('[data-toggle]').forEach(el => {
+    el.addEventListener('click', () => el.classList.toggle('on'));
+  });
+
+  main.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => {
+      // Only toggle within sibling group
+      const siblings = c.parentElement.querySelectorAll('.chip');
+      siblings.forEach(s => s.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+
+  // Action buttons
+  const actions = {
+    'new-story': () => { toast('Opening story creator...'); navigate('stories'); },
+    'add-story': () => { toast('Opening story creator...'); },
+    'add-channel': () => { toast('Opening channel creator...'); },
+    'add-season': () => { toast('Opening season form...'); },
+    'add-episode': () => { toast('Opening episode editor...'); navigate('episode-editor'); },
+    'edit-episode': () => navigate('episode-editor'),
+    'all-stories': () => navigate('stories'),
+    'open-vote': () => navigate('votes'),
+    'back-to-stories': () => navigate('stories'),
+    'preview': () => toast('Preview opened in new window'),
+    'save-draft': () => toast('Draft saved'),
+    'schedule': () => toast('Episode scheduled for May 02'),
+    'comp-sub': () => toast('Comp subscription form opened'),
+    'save-settings': () => toast('Settings saved'),
+    'export': () => toast('Exporting CSV...'),
+  };
+
+  main.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      const action = el.dataset.action;
+      if (actions[action]) actions[action]();
+    });
+  });
+}
+
+// ============ INIT ============
+navigate('dashboard');
+</script>
+</body>
+</html>
